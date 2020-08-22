@@ -14,20 +14,47 @@ class DishDetail extends Component{
                       <CardText>{dish.description}</CardText>
                     </CardBody>
                 </Card>
+                
             );
         else
             return(
                 <div></div>
             );
     };
-    //return correcponding view for this component
+    renderComments(dish) {
+        
+        if (dish != null)
+        
+            return(
+                <div>
+                    <h3>Comments</h3>
+                    <ul>
+                        {dish.comments.map(comment =>  
+                            <li key={comment.id}>
+                                {comment.comment}
+                                <br></br>
+                                --{comment.author} {new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'short', day: '2-digit'}).format(new Date(Date.parse(comment.date)))}
+                            </li>
+                        )}
+                    </ul>
+                </div>
+            )
+        else
+            return(
+                <div></div>
+            );
+    };
+    //return corresponding view for this component
     render(){
         return(
             <div className="container">
                 
                 <div className="row">
                   <div  className="col-12 col-md-5 m-1">
-                    {this.renderDish(this.props.selectedDish)}
+                    {this.renderDish(this.props.dish)}
+                  </div>
+                  <div className="col-12 col-md-6 m-1">
+                  {this.renderComments(this.props.dish)}
                   </div>
                 </div>
             </div>
