@@ -3,13 +3,14 @@ import { Card, CardImg, CardText, CardBody,
     CardTitle } from 'reactstrap';
     
     function RenderDish({dish}) {
+        console.log(dish);
         if (dish != null)
             return(
                 <Card>
-                    <CardImg top src={dish.image} alt={dish.name} />
+                    <CardImg top src={dish[0].image} alt={dish[0].name} />
                     <CardBody>
-                      <CardTitle>{dish.name}</CardTitle>
-                      <CardText>{dish.description}</CardText>
+                      <CardTitle>{dish[0].name}</CardTitle>
+                      <CardText>{dish[0].description}</CardText>
                     </CardBody>
                 </Card>
                 
@@ -19,15 +20,15 @@ import { Card, CardImg, CardText, CardBody,
                 <div></div>
             );
     };
-    function RenderComments({dish}) {
+    function RenderComments({comments}) {
         
-        if (dish != null)
+        if (comments != null)
         
             return(
                 <div>
                     <h3>Comments</h3>
                     <ul>
-                        {dish.comments.map(comment =>  
+                        {comments.map(comment =>  
                             <li key={comment.id}>
                                 {comment.comment}
                                 <br></br>
@@ -47,11 +48,11 @@ import { Card, CardImg, CardText, CardBody,
         return(
             <div className="container">
                 <div className="row">
-                  <div  className="col-12 col-md-5 m-1">
+                  <div  className="col-12 col-md-5 m-1">{props.dish.name}
                     <RenderDish dish={props.dish}></RenderDish>
                   </div>
                   <div className="col-12 col-md-6 m-1">
-                    <RenderComments dish={props.dish}></RenderComments>
+                    <RenderComments comments={props.comments}></RenderComments>
                   </div>
                 </div>
             </div>
