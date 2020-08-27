@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, 
+  Jumbotron, ModalHeader, ModalBody, Button, FormGroup,
+  Modal, Form, Label, Input } from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
 class Header extends Component {
   constructor(props){
     super(props);
     this.state = {
-      isNavOpen: false
+      isNavOpen: false,
+      isModalOpen:false
     };
 
     //bind the method toggleNav to this.toggleNav in the constructor, so we call the method as this.toggleNav
     this.toggleNav= this.toggleNav.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   //in react in order to make avaalable this method, you need to bing this
@@ -18,6 +23,18 @@ class Header extends Component {
     this.setState({
       isNavOpen: !this.state.isNavOpen
     })
+  }
+
+  toggleModal(){
+    this.setState({
+      isModalOpen:!this.state.isModalOpen
+    })
+  }
+
+  handleLogin(event){
+    this.toggleModal();
+    alert(this.username+event.password.value);
+    event.preventDefault();
   }
 
   render() {
@@ -53,9 +70,30 @@ class Header extends Component {
                   </NavLink>
               </NavItem>
             </Nav>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <Button outline onClick={this.toggleModal}>Login</Button>
+              </NavItem>
+            </Nav>
             </Collapse>
         </div>
       </Navbar>
+      <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+        <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
+        <ModalBody>
+          <Form onSubmit={this.handleLogin}>
+            <FormGroup>
+              <Label htmlFor="username">Username</Label>
+              <Input type="text" name="username" id="username" ref={(input)=>this.username=input}></Input>
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="password">Password</Label>
+              <input type="password" name="password" id="password" ref={(input)=>this.password=input}></input>
+            </FormGroup>
+            <Button type="submit" value="Submit" color="primary">Login</Button>
+          </Form>
+        </ModalBody>
+      </Modal>
       <Jumbotron>
            <div className="container">
                <div className="row row-header">
