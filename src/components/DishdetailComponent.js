@@ -24,7 +24,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                 <div></div>
             );
     };
-    function RenderComments({comments}) {
+    function RenderComments({comments, addComment, dish}) {
         
         if (comments != null)
         
@@ -41,7 +41,7 @@ const minLength = (len) => (val) => val && (val.length >= len);
                         )}
                     </ul>
                     <br></br>
-                    <CommentForm></CommentForm>
+                    <CommentForm dishId={dish[0].id} addComment={addComment}></CommentForm>
                 </div>
             )
         else
@@ -70,7 +70,10 @@ const minLength = (len) => (val) => val && (val.length >= len);
         };
 
         handleSubmit(values){
+            this.toggleModal();
             alert(JSON.stringify(values));
+            console.log(this.props);
+            this.props.addComment(this.props.dishId,values.rating,values.yourname,values.commentmessage);
         }
 
         //render view for comment form
@@ -147,7 +150,9 @@ const minLength = (len) => (val) => val && (val.length >= len);
                     <RenderDish dish={props.dish}></RenderDish>
                   </div>
                   <div className="col-12 col-md-6 m-1">
-                    <RenderComments comments={props.comments}></RenderComments>
+                    <RenderComments comments={props.comments}
+                    addComment={props.addComment}
+                    dish={props.dish}></RenderComments>
                   </div>
                 </div>
             </div>
