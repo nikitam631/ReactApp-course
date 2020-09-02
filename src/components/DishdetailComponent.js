@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, Label, Card, CardImg, CardText, CardBody, CardTitle, Button, ModalHeader, ModalBody, Modal} from 'reactstrap';
 import { LocalForm, Control, Errors } from 'react-redux-form';
+import {Loading} from '../components/LoadingComponent';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -143,20 +144,46 @@ const minLength = (len) => (val) => val && (val.length >= len);
 
     //return corresponding view for this component
     const DishDetail = (props)=>{
-        return(
-            <div className="container">
-                <div className="row">
-                  <div  className="col-12 col-md-5 m-1">{props.dish.name}
-                    <RenderDish dish={props.dish}></RenderDish>
-                  </div>
-                  <div className="col-12 col-md-6 m-1">
-                    <RenderComments comments={props.comments}
-                    addComment={props.addComment}
-                    dish={props.dish}></RenderComments>
-                  </div>
+        if(props.isLoading){
+            return(
+                <div className="container">
+                    <div className="row">
+                        <Loading></Loading>
+                    </div>
                 </div>
-            </div>
-        )
+            )
+        }
+        else if(props.errMess){
+            return(
+                <div className="container">
+                    <div className="row">
+                        <h4>{props.errMess}</h4>
+                    </div>
+                </div>
+            )
+        }
+        else if(props.dish!=null){
+            return(
+                <div className="container">
+                    <div className="row">
+                    <div  className="col-12 col-md-5 m-1">{props.dish.name}
+                        <RenderDish dish={props.dish}></RenderDish>
+                    </div>
+                    <div className="col-12 col-md-6 m-1">
+                        <RenderComments comments={props.comments}
+                        addComment={props.addComment}
+                        dish={props.dish}></RenderComments>
+                    </div>
+                    </div>
+                </div>
+            )
+        }
+        else{
+            return(
+                <div></div>
+            )
+        }
+            
     }
     
 export default DishDetail;
